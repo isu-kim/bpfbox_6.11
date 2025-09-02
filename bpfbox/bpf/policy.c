@@ -930,6 +930,11 @@ LSM_PROBE(socket_bind, struct socket *sock, struct sockaddr *address,
         return 0;
     }
 
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
+    }
+
     enum bpfbox_network_access_t access = NET_BIND;
     enum bpfbox_network_family_t family =
         af_to_network_family(address->sa_family);
@@ -946,6 +951,11 @@ LSM_PROBE(socket_connect, struct socket *sock, struct sockaddr *address,
     struct bpfbox_process_t *process = get_current_process();
     if (!process) {
         return 0;
+    }
+
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
     }
 
     enum bpfbox_network_access_t access = NET_CONNECT;
@@ -966,6 +976,11 @@ LSM_PROBE(unix_stream_connect, struct socket *sock, struct socket *other,
         return 0;
     }
 
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
+    }
+
     enum bpfbox_network_access_t access = NET_CONNECT;
     enum bpfbox_network_family_t family = NET_FAMILY_UNIX;
 
@@ -982,6 +997,11 @@ LSM_PROBE(unix_may_send, struct socket *sock, struct socket *other)
         return 0;
     }
 
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
+    }
+
     enum bpfbox_network_access_t access = NET_SEND;
     enum bpfbox_network_family_t family = NET_FAMILY_UNIX;
 
@@ -996,6 +1016,11 @@ LSM_PROBE(socket_listen, struct socket *sock, int backlog)
     struct bpfbox_process_t *process = get_current_process();
     if (!process) {
         return 0;
+    }
+
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
     }
 
     enum bpfbox_network_access_t access = NET_LISTEN;
@@ -1015,6 +1040,11 @@ LSM_PROBE(socket_accept, struct socket *sock, struct socket *newsock)
         return 0;
     }
 
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
+    }
+
     enum bpfbox_network_access_t access = NET_ACCEPT;
     enum bpfbox_network_family_t family =
         af_to_network_family(sock->sk->sk_family);
@@ -1030,6 +1060,11 @@ LSM_PROBE(socket_sendmsg, struct socket *sock, struct msghdr *msg, int size)
     struct bpfbox_process_t *process = get_current_process();
     if (!process) {
         return 0;
+    }
+
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
     }
 
     enum bpfbox_network_access_t access = NET_SEND;
@@ -1050,6 +1085,11 @@ LSM_PROBE(socket_recvmsg, struct socket *sock, struct msghdr *msg, int size,
         return 0;
     }
 
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
+    }
+
     enum bpfbox_network_access_t access = NET_RECV;
     enum bpfbox_network_family_t family =
         af_to_network_family(sock->sk->sk_family);
@@ -1065,6 +1105,11 @@ LSM_PROBE(socket_shutdown, struct socket *sock, int how)
     struct bpfbox_process_t *process = get_current_process();
     if (!process) {
         return 0;
+    }
+
+    // Add null check for sock->sk
+    if (!sock->sk) {
+        return 0;  // or handle appropriately
     }
 
     enum bpfbox_network_access_t access = NET_SHUTDOWN;
