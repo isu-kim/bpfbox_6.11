@@ -477,7 +477,8 @@ LSM_PROBE(inode_rename, struct inode *old_dir, struct dentry *old_dentry,
 }
 
 /* A task attempts to change an attribute of @dentry */
-LSM_PROBE(inode_setattr, struct dentry *dentry)
+LSM_PROBE(inode_setattr, struct mnt_idmap *idmap, struct dentry *dentry,
+	 struct iattr *attr)
 {
     struct bpfbox_process_t *process = get_current_process();
     if (!process) {
@@ -511,7 +512,9 @@ LSM_PROBE(inode_getattr, struct path *path)
 }
 
 /* A task attempts to change an extended attribute of @dentry */
-LSM_PROBE(inode_setxattr, struct dentry *dentry)
+LSM_PROBE(inode_setxattr, struct mnt_idmap *idmap,
+	 struct dentry *dentry, const char *name, const void *value,
+	 size_t size, int flags)
 {
     struct bpfbox_process_t *process = get_current_process();
     if (!process) {
@@ -562,7 +565,8 @@ LSM_PROBE(inode_listxattr, struct dentry *dentry)
 }
 
 /* A task attempts to remove an extended attribute from @dentry */
-LSM_PROBE(inode_removexattr, struct dentry *dentry)
+LSM_PROBE(inode_removexattr, struct mnt_idmap *idmap,
+	 struct dentry *dentry, const char *name)
 {
     struct bpfbox_process_t *process = get_current_process();
     if (!process) {
